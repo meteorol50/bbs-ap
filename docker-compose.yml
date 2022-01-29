@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  python:
+    build: .
+    command: uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+    ports:
+      - 8000:8000
+    container_name: 'python-3.8'
+    volumes:
+      - ./:/app
+
+  mariadb:
+    image: mariadb:10.2
+    volumes:
+      - bbs-mariadb-data:/var/lib/mariadb
+    ports:
+      - 13306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: bbs_ap
+
+volumes:
+  bbs-mariadb-data:
