@@ -1,23 +1,15 @@
 from fastapi import APIRouter
 
-from app.schemas.auth import Auth
+from app.schemas.auth import AuthRequest
 
 router = APIRouter()
 
-@router.get("/signup")
-async def show_signup():
-  pass
-
 @router.post("/signup")
-async def signup(auth: Auth):
-  pass
-
-@router.get("/signin")
-async def show_signin():
+async def signup(auth: AuthRequest):
   pass
 
 @router.post("/signin")
-async def signin(auth: Auth):
+async def signin(auth: AuthRequest):
   pass
 
 @router.post("/logout")
