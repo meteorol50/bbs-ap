@@ -18,7 +18,7 @@ services:
       - 13306:3306
     environment:
       MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: bbs_ap
+      MARIADB_DATABASE: bbs
 
 volumes:
   bbs-mariadb-data:
