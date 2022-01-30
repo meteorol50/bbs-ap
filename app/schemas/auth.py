@@ -1,8 +1,5 @@
-import string
-from typing import Optional
+from pydantic import BaseModel, Field, EmailStr
 
-from pydantic import BaseModel, Field
-
-class Auth(BaseModel):
-  email: str
-  password: str
+class AuthRequest(BaseModel):
+  email: EmailStr
+  password: str = Field(..., min_length = 8, max_length = 20)

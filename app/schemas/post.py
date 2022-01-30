@@ -1,9 +1,13 @@
-import string
-from typing import Optional
-
 from pydantic import BaseModel, Field
+from datetime import datetime
 
-class Post(BaseModel):
+class PostBase(BaseModel):
   user_id: int
-  title: str
-  content: str
+  title: str = Field(..., min_length = 1, max_length = 50)
+  content: str = Field(..., min_length = 1, max_length = 100)
+
+class PostRequest(PostBase):
+  pass
+
+class PostResponse(PostBase):
+  date: datetime
