@@ -4,25 +4,10 @@ DROP TABLE IF EXISTS `users` ;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` INT NOT NULL AUTO_INCREMENT,
-  `name` NVARCHAR(20) NOT NULL,
-  PRIMARY KEY (`user_id`))
-ENGINE = InnoDB;
-
-
-
-DROP TABLE IF EXISTS `auths` ;
-
-CREATE TABLE IF NOT EXISTS `auths` (
-  `auth_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
+  `name` NVARCHAR(20) NULL,
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(60) NOT NULL,
-  PRIMARY KEY (`auth_id`),
-  CONSTRAINT `fk_auth_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;
 
 
