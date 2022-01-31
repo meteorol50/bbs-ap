@@ -1,7 +1,5 @@
 from typing import List, Tuple, Optional
 
-from sqlalchemy import select
-from sqlalchemy.engine import Result
 from sqlalchemy.orm import sessionmaker
 
 import app.models.model as user_model
@@ -19,29 +17,15 @@ async def create_user(
   return user
 
 async def get_user_by_id(db: sessionmaker, user_id: int) -> Optional[user_model.User]:
-  result: Result = await db.execute(
-    select(user_model.User).filter(user_model.User.user_id == user_id)
-  )
-  user: Optional[Tuple[user_model.User]] = result.first()
+  user: Optional[Tuple[user_model.User]] = await db.query(user_model.User).filter(user_model.User.user_id == user_id).first()
   return user[0] if user is not None else None  # 要素が一つであってもtupleで返却されるので１つ目の要素を取り出す
 
 async def get_user_by_email(db: sessionmaker, email: str) -> Optional[user_model.User]:
-  result: Result = await db.execute(
-    select(user_model.User).filter(user_model.User.email == email)
-  )
-  user: Optional[Tuple[user_model.User]] = result.first()
+  user: Optional[Tuple[user_model.User]] = await db.query(user_model.User).filter(user_model.User.email == email).first()
   return user[0] if user is not None else None
 
 async def get_users(db: sessionmaker) -> List[Tuple[int, str]]:
-  result: Result = await (
-    db.execute(
-      select(
-        user_model.User.user_id,
-        user_model.User.name,
-      )
-    )
-  )
-  return result.all()
+  return await db.query(user_model.User.user_id, user_model.User.name).all()
 
 async def update_user(
   db: sessionmaker, user_create: user_schema.UserRequest, original: user_model.User
