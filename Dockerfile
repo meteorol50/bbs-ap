@@ -1,10 +1,14 @@
 FROM python:3.8
 
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-ENV PYTHONPATH=$PYTHONPATH:/usr/local/lib/python3.8/site-packages/
+RUN pip install poetry
 
-COPY requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt
+COPY pyproject.toml* poetry.lock* ./
 
-COPY . .
+RUN poetry config virtualenvs.in-project true
+RUN if [ -f pyproject.toml ]; then poetry install; fi
+
+ENTRYPOINT ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload", "--port",  "8000"]
