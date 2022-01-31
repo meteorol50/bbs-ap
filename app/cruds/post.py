@@ -2,13 +2,13 @@ from typing import List, Tuple
 
 from sqlalchemy import select
 from sqlalchemy.engine import Result
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import sessionmaker
 
 import app.models.model as post_model
 import app.schemas.post as post_schema
 
 async def create_post(
-  db: AsyncSession, post_create: post_schema.PostRequest
+  db: sessionmaker, post_create: post_schema.PostRequest
 ) -> post_model.Post:
   post = post_model.Post(**post_create.dict())
   db.add(post)
@@ -16,7 +16,7 @@ async def create_post(
   await db.refresh(post)
   return post
 
-async def get_posts_with_user(db: AsyncSession) -> List[Tuple[int, str, str, str]]:
+async def get_posts_with_user(db: sessionmaker) -> List[Tuple[int, str, str, str]]:
   result: Result = await (
     db.execute(
       select(
