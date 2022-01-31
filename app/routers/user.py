@@ -1,15 +1,21 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.ext.asyncio import AsyncSession
+
+import app.cruds.user as user_crud
+from app.db import get_db
 
 from app.schemas.user import UserRequest, UserResponse
 
 router = APIRouter()
 
 @router.get("/user/{user_id}", response_model = UserResponse)
-async def profile(user_id: int):
-  user = UserResponse(user_id = user_id, name = "")
-  return user
+async def get_profile(user_id: int, db: AsyncSession = Depends(get_db)):
+  return await user_crud.get_user_by_id(db, user_id)
 
 @router.post("/user/{user_id}", response_model = UserResponse)
-async def edit_profile(user_id: int, user: UserRequest):
-  result = UserResponse(user_id = user_id, **user.dict())
-  return result
+async def update_profile(user_id: int, userReqest: UserRequest, db: AsyncSession = Depends(get_db)):
+  user = await user_crud.get_user_by_id(db, user_id)
+  if user is None:
+    raise HTTPException(status_code=404, detail="User not found")
+
+  return await user_crud.update_user(db, userReqest, original=user)
