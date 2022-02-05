@@ -20,9 +20,9 @@ def create_user(
 #   user: Optional[Tuple[user_model.User]] = await db.query(user_model.User).filter(user_model.User.user_id == user_id).first()
 #   return user[0] if user is not None else None  # 要素が一つであってもtupleで返却されるので１つ目の要素を取り出す
 
-# async def get_user_by_email(db: sessionmaker, email: str) -> Optional[user_model.User]:
-#   user: Optional[Tuple[user_model.User]] = await db.query(user_model.User).filter(user_model.User.email == email).first()
-#   return user[0] if user is not None else None
+def get_user_by_email(db: Session, email: str) -> Optional[user_model.User]:
+  user: Optional[Tuple[user_model.User]] = db.query(user_model.User).filter(user_model.User.email == email).first()
+  return user if user is not None else None
 
 # async def get_users(db: sessionmaker) -> List[Tuple[int, str]]:
 #   return await db.query(user_model.User.user_id, user_model.User.name).all()
