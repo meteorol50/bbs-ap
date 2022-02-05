@@ -5,6 +5,7 @@ from app.db import Base
 
 class User(Base):
     __tablename__ = "users"
+    __table_args__ = ({"comment": "ユーザー"},)
 
     user_id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=True)
@@ -19,4 +20,4 @@ class Post(Base):
   title = Column(String(255), nullable=True)
   content = Column(String(1000), nullable=True)
 
-  user = relationship("User", back_populates="user")
+  user = relationship("User", backref="posts")

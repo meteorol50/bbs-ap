@@ -1,19 +1,19 @@
 from typing import List, Tuple, Optional
 
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session
+from sqlalchemy.engine.base import Engine
 
 import app.models.model as user_model
 import app.schemas.auth as auth_schema
 import app.schemas.user as user_schema
 
-
-async def create_user(
-  db: sessionmaker, user_create: auth_schema.AuthRequest
+def create_user(
+  db: Session, user_create: auth_schema.AuthRequest
 ) -> user_model.User:
   user = user_model.User(**user_create.dict())
   db.add(user)
-  await db.commit()
-  await db.refresh(user)
+  db.commit()
+  db.refresh(user)
   return user
 
 # async def get_user_by_id(db: sessionmaker, user_id: int) -> Optional[user_model.User]:
