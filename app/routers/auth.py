@@ -11,6 +11,6 @@ router = APIRouter()
 async def signup(auth: AuthRequest, db: sessionmaker = Depends(get_db)):
   return await user_crud.create_user(db, auth)
 
-@router.post("/signin")
-async def signin(auth: AuthRequest, db: sessionmaker = Depends(get_db)):
-  return await user_crud.get_user_by_email(db, auth)
+# @router.post("/signin")
+# async def signin(auth: AuthRequest):
+#   return await user_crud.get_user_by_email(db, auth)
