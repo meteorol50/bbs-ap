@@ -1,3 +1,4 @@
+from app.utils.cryptography import encrypt
 from typing import Tuple, Optional
 
 from sqlalchemy.orm import Session
@@ -10,6 +11,10 @@ def create_user(
   db: Session, user_create: auth_schema.AuthRequest
 ) -> User:
   user = User(**user_create.dict())
+
+  # パスワード暗号化
+  user.password = encrypt(user.password)
+
   db.add(user)
   db.commit()
   db.refresh(user)

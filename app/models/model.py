@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy.dialects.mysql import VARBINARY
 from sqlalchemy.orm import relationship
 
 from app.db import Base
@@ -10,7 +11,7 @@ class User(Base):
     user_id = Column(Integer, primary_key=True)
     name = Column(String(20), nullable=True)
     email = Column(String(255), nullable=False)
-    password = Column(String(60), nullable=False)
+    password = Column(VARBINARY(255), nullable=False)
 
 class Post(Base):
   __tablename__ = "posts"
