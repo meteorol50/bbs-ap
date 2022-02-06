@@ -10,9 +10,9 @@ from app.schemas.post import PostRequest, PostResponse
 
 router = APIRouter()
 
-# @router.get("/", response_model = List[PostResponse])
-# async def home(db: sessionmaker = Depends(get_db)):
-#   return await post_crud.get_posts_with_user(db)
+@router.get("/", response_model = List[PostResponse])
+def home(db: Session = Depends(get_db)):
+  return post_crud.get_posts_with_user(db)
 
 @router.post("/post", response_model = PostResponse)
 def post(post: PostRequest, db: Session = Depends(get_db)):
