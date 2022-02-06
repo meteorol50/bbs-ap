@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import List
 from datetime import datetime, timezone, timedelta
 from sqlalchemy import desc
 
