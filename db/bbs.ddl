@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS posts (
   `user_id` INT NOT NULL,
   `title` NVARCHAR(255) NULL,
   `content` NVARCHAR(1000) NULL,
+  `date` DATETIME NOT NULL,
   PRIMARY KEY (`post_id`),
   CONSTRAINT `fk_post_user1`
     FOREIGN KEY (`user_id`)

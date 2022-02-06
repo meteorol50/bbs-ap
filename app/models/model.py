@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 from app.db import Base
@@ -19,5 +19,6 @@ class Post(Base):
   user_id = Column(Integer, ForeignKey("users.user_id"), nullable=False)
   title = Column(String(255), nullable=True)
   content = Column(String(1000), nullable=True)
+  date = Column(DateTime, nullable=False)
 
   user = relationship("User", backref="posts")

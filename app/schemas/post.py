@@ -11,3 +11,6 @@ class PostRequest(PostBase):
 
 class PostResponse(PostBase):
   date: datetime
+
+  class Config:
+    orm_mode = True
