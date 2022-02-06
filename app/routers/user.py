@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 
 import app.cruds.user as user_crud
 from app.db import get_db
-
 from app.schemas.user import UserRequest, UserResponse
 
 router = APIRouter()
@@ -12,7 +11,7 @@ router = APIRouter()
 def get_profile(user_id: int, db: Session = Depends(get_db)):
   user = user_crud.get_user_by_id(db, user_id)
   if user is None:
-    raise HTTPException(status_code = 400, detail = "Not Found.")
+    raise HTTPException(status_code = 404, detail = "Not Found.")
   if user.name is None:
     user.name = ""
   return user
@@ -21,6 +20,6 @@ def get_profile(user_id: int, db: Session = Depends(get_db)):
 def update_profile(user_id: int, userReqest: UserRequest, db: Session = Depends(get_db)):
   user = user_crud.get_user_by_id(db, user_id)
   if user is None:
-    raise HTTPException(status_code = 400, detail = "Not Found.")
+    raise HTTPException(status_code = 404, detail = "Not Found.")
 
   return user_crud.update_user(db, userReqest, original = user)
