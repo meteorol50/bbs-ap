@@ -27,11 +27,11 @@ def get_user_by_email(db: Session, email: str) -> Optional[user_model.User]:
 # async def get_users(db: sessionmaker) -> List[Tuple[int, str]]:
 #   return await db.query(user_model.User.user_id, user_model.User.name).all()
 
-# async def update_user(
-#   db: sessionmaker, user_create: user_schema.UserRequest, original: user_model.User
-# ) -> user_model.User:
-#   original.name = user_create.name
-#   db.add(original)
-#   await db.commit()
-#   await db.refresh(original)
-#   return original
+def update_user(
+  db: Session, user_create: user_schema.UserRequest, original: user_model.User
+) -> user_model.User:
+  original.name = user_create.name
+  db.add(original)
+  db.commit()
+  db.refresh(original)
+  return original
