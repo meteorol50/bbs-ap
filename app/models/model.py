@@ -12,6 +12,7 @@ class User(Base):
     name = Column(String(20), nullable=True)
     email = Column(String(255), nullable=False)
     password = Column(VARBINARY(255), nullable=False)
+    auth_token = Column(String(255), nullable=True)
 
 class Post(Base):
   __tablename__ = "posts"

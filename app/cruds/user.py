@@ -5,7 +5,6 @@ from sqlalchemy.orm import Session
 
 from app.models.model import User
 import app.schemas.auth as auth_schema
-import app.schemas.user as user_schema
 
 def create_user(
   db: Session, user_create: auth_schema.AuthRequest
@@ -28,14 +27,17 @@ def get_user_by_email(db: Session, email: str) -> Optional[User]:
   user: Optional[Tuple[User]] = db.query(User).filter(User.email == email).first()
   return user if user is not None else None
 
+def get_user_by_auth_token(db: Session, auth_token: str) -> Optional[User]:
+  user: Optional[Tuple[User]] = db.query(User).filter(User.auth_token == auth_token).first()
+  return user if user is not None else None
+
 # async def get_users(db: sessionmaker) -> List[Tuple[int, str]]:
 #   return await db.query(User.user_id, User.name).all()
 
 def update_user(
-  db: Session, user_create: user_schema.UserRequest, original: User
+  db: Session, user: User
 ) -> User:
-  original.name = user_create.name
-  db.add(original)
+  db.add(user)
   db.commit()
-  db.refresh(original)
-  return original
+  db.refresh(user)
+  return user
